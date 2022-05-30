@@ -5,7 +5,7 @@ const db = new Firestore({
     projectId: 'astro-351615',
 });
 
-function loadOriginalData(){
+async function loadOriginalData(){
     let rawdata = fs.readFileSync('original-data.json');
     let data = JSON.parse(rawdata);
 
