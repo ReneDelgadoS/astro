@@ -1,14 +1,16 @@
 /*
     René Delgado Servín 29/05/2022
     ******************************
-    Server initiation module.
+    Server module.
 */
-const express = require("express");
-const app = express();
 
-app.listen(3000, () => {
-    console.log("Server running in");
-});
-app.get('/astro', function (req, res) {
-    
-});
+const express = require("express");
+const server = express();
+
+module.exports = {
+    start: (port)=>{
+        server.listen(port, () => {
+            console.log("Server running in "+port);
+        });
+    }
+}

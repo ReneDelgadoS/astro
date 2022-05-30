@@ -4,7 +4,8 @@
   "description": "Astronomy pictures api",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/ReneDelgadoS/astro#readme",
   "dependencies": {
+    "@google-cloud/firestore": "^5.0.2",
     "express": "^4.18.1"
   }
 }
