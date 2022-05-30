@@ -36,13 +36,14 @@ The endpoint for selecting entries using GET request or the insertion of an entr
 
 This endpoint returns general information of the database.
 
-Try it:\
+Try it:
 
 `35.185.252.75:3000/pictures/info`
 
 ### Insert an entry
 
-Make a POST request in `/pictures` .\
+Make a POST request in `/pictures` .
+
 **Parameters**:
 
 + `key` |  Personal `key` to be able to insert values in the database
@@ -63,7 +64,7 @@ If no parameters are specified a single random entry will be returned in `entrie
 If you want to consult multiple entries the `count` parameter should be specified.
 
 - `count` | A positive integer, no greater than 100. Indicates the maximum amount of entries that should be returned from the collection.
-- `firstEntry` | A positive integer. It indicates from which entry forwards of the collection the entries that will make up the `entries` field are from. If not specified its default value is 1, meaning the first entry of the database and the `count`-1 following entries will be returned. Keep in mind the database is ordered by the `title`. If `firstEntry` is bigger than the size of the collection a `404` error will be returned.
+- `firstEntry` | A positive integer. It indicates from which entry forwards of the collection the entries that will make up the `entries` field are from. If not specified its default value is 1, meaning the first entry of the database and the `count`-1 following entries will be returned in the `entries` field. Keep in mind the database is ordered by the `title`. If `firstEntry` is bigger than the size of the collection a `404` error will be returned.
 - `filter` | A string containing a single word. If specified, the `title` field or `explanation` field of the entries that will make up the collection should contain the `filter` word.  If `filter` is not specified no filter will be applied.
 
 Examples:\
