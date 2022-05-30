@@ -5,7 +5,7 @@ const db = new Firestore({
     projectId: 'astro-351615',
 });
 
-loadOriginalData = async function (){
+const loadOriginalData = async function (){
     let rawdata = fs.readFileSync('original-data.json');
     let data = JSON.parse(rawdata);
 
@@ -13,7 +13,7 @@ loadOriginalData = async function (){
         let res = await db.collection('entires').add(d)
     }
 }
-await loadOriginalData()
+loadOriginalData()
 
 
 
