@@ -4,7 +4,18 @@
     Main of the REST API Astro
     Should handle module loading and intiation.        
 */
-//Load config.js module
+//Import config.js 
 const config = require('./config');
+//Import server.js
 const server = require("./server");
+//Import enendpoints.js
+const endpoints = requiere("./endpoints")
+//Import db.js
+const db = requiere("./db")
+//Start server
 server.start(config.server.port)
+//Start DB
+db.loadOriginalData()
+//Start endpoints
+
+

@@ -12,5 +12,6 @@ module.exports = {
         server.listen(port, () => {
             console.log("Server running in "+port);
         });
-    }
+    },
+    server : server
 }
