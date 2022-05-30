@@ -9,7 +9,7 @@ const loadOriginalData = async function (){
     let rawdata = fs.readFileSync('original-data.json')
     let data = JSON.parse(rawdata)
 
-    for (d in data){
+    for (d of data){
         console.log()
         let res = await db.collection('entires').add(d)
     }
