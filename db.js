@@ -1,9 +1,7 @@
 const Firestore = require('@google-cloud/firestore')
 const fs = require('fs')
 
-const db = new Firestore({
-    projectId: 'astro-351615',
-})
+const db = new Firestore()
 
 const loadOriginalData = async function (){
     let rawdata = fs.readFileSync('original-data.json')
