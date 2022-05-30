@@ -5,9 +5,9 @@
     Should handle module loading and intiation.        
 */
 //Import config.js 
-const config = require('./config');
+const config = require('./config')
 //Import server.js
-const server = require("./server");
+const server = require("./server")
 //Import enendpoints.js
 const endpoints = requiere("./endpoints")
 //Import db.js
