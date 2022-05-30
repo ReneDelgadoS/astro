@@ -11,11 +11,11 @@ const server = require("./server");
 //Import enendpoints.js
 const endpoints = requiere("./endpoints")
 //Import db.js
-const db = requiere("./db")
+//const db = requiere("./db")
 //Start server
 server.start(config.server.port)
 //Start DB
-db.loadOriginalData()
+
 //Start endpoints
 
 

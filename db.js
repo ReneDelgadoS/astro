@@ -13,8 +13,13 @@ function loadOriginalData(){
         let res = await db.collection('entires').add(d)
     }
 }
+loadOriginalData()
 
+
+
+/* 
 module.exports={
     loadOriginalData : loadOriginalData
 }
 
+ */
