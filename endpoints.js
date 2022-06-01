@@ -68,4 +68,4 @@ function loadEndpoints(app){
         }
     })
 }
-export {loadEndpoints}
+module.exports = {load:loadEndpoints}

@@ -14,4 +14,4 @@ app.listen(config.app.port, () => {
 });
 //Import endpoints.js
 const endpoints = require('/endpoints')
-endpoints.loadEndpoints(app)
+endpoints.load(app)
