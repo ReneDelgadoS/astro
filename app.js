@@ -12,24 +12,6 @@ const app = express()
 app.listen(config.app.port, () => {
     console.log('Server running in '+config.app.port)
 });
-//Load db
-
-app.route('/pictures')
-    .get((req, res) => {
-        
-
-
-        
-        else{
-
-            db.collection()
-        }
-    })
-    .post((req, res) => {
-        res.send('Add a book')
-    })
-    .
-app.route('/pictures/info')
-    .get((req, res) => {
-        res.send('Get a random book')
-    })
+//Import endpoints.js
+const endpoints = require('/endpoints')
+endpoints.loadEndpoints(app)

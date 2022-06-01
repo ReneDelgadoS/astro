@@ -1,8 +1,7 @@
 /*
     René Delgado Servín 30/05/2022
     ******************************
-    Main of the REST API Astro
-    Should handle module loading and intiation.        
+    Endpoint configuration and loading.
 */
 //Validator
 const Ajv = require('ajv')
@@ -10,7 +9,8 @@ const ajv = new Ajv();
 //db
 const Firestore = require('@google-cloud/firestore')
 const db =  new Firestore()
-
+const entriesRef=db.collection('entries');
+//Add validation schemas to the validator or future use.
 ajv.addSchema(
     {
         type: 'object',
@@ -23,8 +23,10 @@ ajv.addSchema(
         type: 'object',
         properties: {
             count: { type: 'number',minimum:1,maximum:100, multipleOf: 1},
-            firstEntry: {type: 'number',minimum:1, multipleOf: 1},
-            filter: {type: 'string',maxLength: 50}
+            filter: {type: 'string',maxLength: 50},
+            oldest_date:{type: 'string',pattern: "/^\d{4}-\d{2}-\d{2}$/"},
+            newest_date:{type: 'string',pattern: "/^\d{4}-\d{2}-\d{2}$/"},
+            date:{type: 'string',pattern: "/^\d{4}-\d{2}-\d{2}$/"},
         },
         additionalProperties: false,
         required: ['count']
@@ -56,17 +58,14 @@ ajv.addSchema(
 )
 
 
-function loadEndpoints(app,db){
-    app.get('/pictures',(req,res)=>{
+function loadEndpoints(app){
+    app.get('/pictures',async (req,res)=>{
         let validcount = ajv.getSchema('get /pictures cont')(req.query)
         if(!validcount){
-            db.collection('entries')
+            let data = await entriesRef.orderBy(`additiondate`, 'desc').limit(1).get().docs[0].data()
+            res.send(JSON.stringify({count:1,entries:data}))
+            return
         }
-        let validget = ajv.getSchema('get /pictures')(req.query)
-
-
-
-
     })
 }
 export {loadEndpoints}
