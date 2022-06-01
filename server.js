@@ -3,15 +3,19 @@
     ******************************
     Server module.
 */
-
 const express = require("express")
-const server = express()
+const app = express()
+server.listen(port, () => {
+    console.log("Server running in "+port)
+});
+
+const endpoints
+
+
+
 
 module.exports = {
     start: (port)=>{
-        server.listen(port, () => {
-            console.log("Server running in "+port)
-        });
-    },
-    server : server
+       
+    }
 }
