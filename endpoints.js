@@ -7,9 +7,9 @@
 const Ajv = require('ajv')
 const ajv = new Ajv();
 //db
-/* const Firestore = require('@google-cloud/firestore')
+const Firestore = require('@google-cloud/firestore')
 const db =  new Firestore()
-const entriesRef=db.collection('entries'); */
+const entriesRef=db.collection('entries');
 //Add validation schemas to the validator or future use.
 ajv.addSchema(
     {
@@ -62,8 +62,8 @@ function loadEndpoints(app){
     app.get('/pictures',async (req,res)=>{
         let validcount = ajv.getSchema('get /pictures cont')(req.query)
         if(!validcount){
-           /*  let data = await entriesRef.orderBy(`additiondate`, 'desc').limit(1).get().docs[0].data()
-            res.send(JSON.stringify({count:1,entries:data})) */
+            let data = await entriesRef.orderBy(`additiondate`, 'desc').limit(1).get().docs[0].data()
+            res.send(JSON.stringify({count:1,entries:data}))
             return
         }
     })
