@@ -13,5 +13,5 @@ app.listen(config.app.port, () => {
     console.log('Server running in '+config.app.port)
 });
 //Import endpoints.js
-const endpoints = require('/endpoints')
+const endpoints = require('./endpoints')
 endpoints.load(app)
