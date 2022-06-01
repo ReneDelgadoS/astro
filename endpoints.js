@@ -63,7 +63,11 @@ function loadEndpoints(app){
         let validcount= ajv.getSchema('get /pictures count')(req.query)
         if(!validcount){
             //let data = await entriesRef.orderBy(`additiondate`, 'desc').limit(1).get().docs[0].data()
-            let data = await entriesRef.get().docs[0].data()
+            let data = await entriesRef.get().then(
+                query=>{
+                    return query.docs[0].data()
+                }
+            )
             res.send(JSON.stringify({count:1,entries:data}))
             return
         }
