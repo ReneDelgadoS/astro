@@ -60,14 +60,12 @@ ajv.addSchema(
 
 function loadEndpoints(app){
     app.get('/pictures',async (req,res)=>{
-        res.send("Hola")
-        /* 
         let validcount = ajv.getSchema('get /pictures cont')(req.query)
         if(!validcount){
             let data = await entriesRef.orderBy(`additiondate`, 'desc').limit(1).get().docs[0].data()
-            res.send(JSON.stringify({count:1,entries:data}))
+            res.send(JSON.stringify({count:1,entries:data})) */
             return
-        } */
+        }
     })
 }
 
