@@ -75,27 +75,28 @@ function loadEndpoints(app){
         if(validget){
             let newest_date = 'newest_date' in req.query ? req.query.newest_date : (new Date()).toISOString().split('T')[0]
             let oldest_date = 'oldest_date' in req.query ? req.query.oldest_date : '2022-05-30'
-            const query = await ordered_entriesRef.where(`additiondate`,'<=',newest_date).where(`additiondate`,'>=',oldest_date).limit(req.query.count).get()
-            if(query.empty){
-                res.send(JSON.stringify({code:'404',msg:'No entries matchig query found.'}))
-                return
-            }
-            let out = []
-            if('filter' in req.query){
-                for(doc in query.docs){
-                    if(doc.get('title').contains(req.query.filter)||doc.get('explanation').contains(req.query.filter)){
-                        out.append(doc.data())
+            const query = await ordered_entriesRef.where(`additiondate`,'<=',newest_date).where(`additiondate`,'>=',oldest_date).limit(req.query.count).get().then(
+            query=>{
+                if(query.empty){
+                    res.send(JSON.stringify({code:'404',msg:'No entries matchig query found.'}))
+                    return
+                }
+                let out = []
+                if('filter' in req.query){
+                    for(doc in query.docs){
+                        if(doc.get('title').contains(req.query.filter)||doc.get('explanation').contains(req.query.filter)){
+                            out.append(doc.data())
+                        }
                     }
                 }
-            }
-            else{
-                out=query.docs   
-            }
-            if(out.length=0){
-                res.send(JSON.stringify({code:'404',msg:'No entries matchig query found.'}))
-                return
-            }
-            res.send(JSON.stringify({count:out.length,entries:out}))
+                else{
+                    out=query.docs   
+                }
+                if(out.length==0){
+                    res.send(JSON.stringify({code:'404',msg:'No entries matchig query found.'}))
+                }
+                else res.send(JSON.stringify({count:out.length,entries:out}))      
+            })   
         }
         else{
             res.send(JSON.stringify({code:'400',msg:'Bad request',extra:validateget.errors,exra2:(typeof req.query.count)}))  
