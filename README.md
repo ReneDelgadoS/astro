@@ -50,7 +50,7 @@ Make a GET request in `/pictures`. This returns a JSON with the following **fiel
 
 **Parameters**\
 If the `count` parameter is not specified a single entry with the closest `additiondate` value to the current date will be returned.\
-If you want to consult multiple entries or apply filters the `count` parameter should be specified.
+If you want to consult multiple entries or apply filters the `count` parameter should be specified. Entries are ordered first by `additiondate` in descending order then by `title` in ascending order. 
 
 - `count` | A positive integer, no greater than 100. Indicates the maximum amount of entries that should be returned from the database.
 - `offset` | A positive integer. Parameter that specifies the numeber of the entry from which the pagination will be done. If not specified the values is 1, indicating the first entry.
