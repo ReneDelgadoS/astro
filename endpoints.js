@@ -84,7 +84,7 @@ function loadEndpoints(app){
                 let out = []
                 if('filter' in req.query){
                     for(doc of query.docs){
-                        if(doc.get('title').contains(req.query.filter)||doc.get('explanation').contains(req.query.filter)){
+                        if(doc.get('title').includes(req.query.filter)||doc.get('explanation').includes(req.query.filter)){
                             out.append(doc.data())
                         }
                     }
