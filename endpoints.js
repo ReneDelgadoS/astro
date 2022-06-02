@@ -4,9 +4,9 @@
     Endpoint configuration and loading.
 */
 //Load db 
-const db = require('/db')
+const db = require('./db')
 //Load validddator
-const ajv = require('/validator')
+const ajv = require('./validator')
 
 
 //load get endpoint
