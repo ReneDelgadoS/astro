@@ -94,7 +94,7 @@ function loadEndpoints(app){
             res.send(JSON.stringify({count:out.length,entries:out}))
         }
         else{
-            res.send(JSON.stringify({code:'400',msg:'Bad request'}))  
+            res.send(JSON.stringify({code:'400',msg:'Bad request',extra:avj.errors}))  
         }
     })
 }
