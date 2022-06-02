@@ -59,7 +59,8 @@ ajv.addSchema(
 
 function loadEndpoints(app){
     app.get('/pictures',async (req,res)=>{
-        let validcount= ajv.getSchema('get /pictures count')(req.query)
+        let validatecount= ajv.getSchema('get /pictures count')
+        let validcount= validatecount(req.query)
         if(!validcount){
             let data = await ordered_entriesRef.limit(1).get().then(
                 query=>{
@@ -69,7 +70,8 @@ function loadEndpoints(app){
             res.send(JSON.stringify({count:1,entries:[data]}))
             return
         }
-        let validget= ajv.getSchema('get /pictures')(req.query)
+        let validateget = ajv.getSchema('get /pictures')
+        let validget= validateget(req.query)
         if(validget){
             const query = await ordered_entriesRef.where(`additiondate`,'<=','newest_date').where(`additiondate`,'>=','oldest_date').limit(req.query.count).get()
             if(query.empty){
@@ -94,7 +96,7 @@ function loadEndpoints(app){
             res.send(JSON.stringify({count:out.length,entries:out}))
         }
         else{
-            res.send(JSON.stringify({code:'400',msg:'Bad request',extra:ajv.errors}))  
+            res.send(JSON.stringify({code:'400',msg:'Bad request',extra:validateget.errors}))  
         }
     })
 }
