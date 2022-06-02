@@ -52,11 +52,10 @@ Make a GET request in `/pictures`. This returns a JSON with the following **fiel
 If the `count` parameter is not specified a single entry with the closest `additiondate` value to the current date will be returned.\
 If you want to consult multiple entries or apply filters the `count` parameter should be specified.
 
-- `count` | A positive integer, no greater than 100. Indicates the maximum amount of entries that should be returned from the collection.
-- `newest_date` | A string in YYYY-MM-DD format indicating the start of a date range. All entries in the range from `newest_date` to `oldest_date` will be returned.
-- `oldest_date` | A string in YYYY-MM-DD format indicating the end of a date range. If `oldest_date` is specified without a `newest_date` the date closest to the current will be used as `newest_date`.
+- `count` | A positive integer, no greater than 100. Indicates the maximum amount of entries that should be returned from the database.
+- `newest_date` | A string in YYYY-MM-DD format indicating the end of a date range. Entries in the range from `newest_date` to `oldest_date` will be returned. If `newest_date`  is not specified the current date will be used.
+- `oldest_date` | A string in YYYY-MM-DD format indicating the start of a date range. Entries in the range from `newest_date` to `oldest_date` will be returned. If noot specified the entri with the oldest `additiondate` date will be used.
 - `filter` | A string of 50 characters maximum. If specified, the entries returned must contain `filter` in the `title` field or `explanation` field.
-- `date` | A string in the format "YYYY-MM-DD". If specified the entries' `additiondate` field value must be `date`, and the `oldest_date` and  `newest_date` parameters will be ignored. 
 
 Examples:\
 `35.185.252.75:3000/pictures`\

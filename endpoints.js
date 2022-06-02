@@ -9,7 +9,7 @@ const ajv = new Ajv();
 //db
 const Firestore = require('@google-cloud/firestore')
 const db =  new Firestore()
-const entriesRef=db.collection('entries');
+const ordered_entriesRef=db.collection('entries').orderBy(`additiondate`, 'desc');
 //Add validation schemas to the validator or future use.
 ajv.addSchema(
     {
@@ -26,7 +26,6 @@ ajv.addSchema(
             filter: {type: 'string',maxLength: 50},
             oldest_date:{type: 'string',pattern: "/^\d{4}-\d{2}-\d{2}$/"},
             newest_date:{type: 'string',pattern: "/^\d{4}-\d{2}-\d{2}$/"},
-            date:{type: 'string',pattern: "/^\d{4}-\d{2}-\d{2}$/"},
         },
         additionalProperties: false,
         required: ['count']
@@ -62,14 +61,40 @@ function loadEndpoints(app){
     app.get('/pictures',async (req,res)=>{
         let validcount= ajv.getSchema('get /pictures count')(req.query)
         if(!validcount){
-            //let data = await entriesRef.orderBy(`additiondate`, 'desc').limit(1).get().docs[0].data()
-            let data = await entriesRef.get().then(
+            let data = await ordered_entriesRef.limit(1).get().then(
                 query=>{
                     return query.docs[0].data()
                 }
             )
-            res.send(JSON.stringify({count:1,entries:data}))
+            res.send(JSON.stringify({count:1,entries:[data]}))
             return
+        }
+        let validget= ajv.getSchema('get /pictures')(req.query)
+        if(validget){
+            const query = await ordered_entriesRef.where(`additiondate`,'<=','newest_date').where(`additiondate`,'>=','oldest_date').limit(req.query.count).get()
+            if(query.empty){
+                res.send(JSON.stringify({code:'404',msg:'No entries matchig query found.'}))
+                return
+            }
+            let out = []
+            if('filter' in req.query){
+                for(doc in query.docs){
+                    if(doc.get('title').contains(req.query.filter)||doc.get('explanation').contains(req.query.filter)){
+                        out.append(doc.data())
+                    }
+                }
+            }
+            else{
+                out=query.docs   
+            }
+            if(out.length=0){
+                res.send(JSON.stringify({code:'404',msg:'No entries matchig query found.'}))
+                return
+            }
+            res.send(JSON.stringify({count:out.length,entries:out}))
+        }
+        else{
+            res.send(JSON.stringify({code:'400',msg:'Bad request'}))  
         }
     })
 }
