@@ -9,7 +9,7 @@ const ajv = new Ajv({coerceTypes:true});
 //db
 const Firestore = require('@google-cloud/firestore')
 const db =  new Firestore()
-const ordered_entriesRef=db.collection('entries').orderBy(`additiondate`, 'desc').orderBy(`additiondate`, 'asc');
+const ordered_entriesRef=db.collection('entries').orderBy(`additiondate`, 'desc').orderBy(`title`, 'asc');
 //Add validation schemas to the validator or future use.
 ajv.addSchema(
     {
