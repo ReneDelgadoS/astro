@@ -74,8 +74,7 @@ function loadEndpoints(app){
         let validget= validateget(req.query)
         if(validget){
             let newest_date = 'newest_date' in req.query ? req.query.newest_date : (new Date()).toISOString().split('T')[0]
-            let oldest_date = 'oldest_date' in req.query ? req.query.newest_date : '2022-05-30'
-            yourDate.toISOString().split('T')[0]
+            let oldest_date = 'oldest_date' in req.query ? req.query.oldest_date : '2022-05-30'
             const query = await ordered_entriesRef.where(`additiondate`,'<=',newest_date).where(`additiondate`,'>=',oldest_date).limit(req.query.count).get()
             if(query.empty){
                 res.send(JSON.stringify({code:'404',msg:'No entries matchig query found.'}))
