@@ -26,6 +26,7 @@ ajv.addSchema(
             filter: {type: 'string',maxLength: 50},
             oldest_date:{type: 'string',pattern: "/^\d{4}-\d{2}-\d{2}$/"},
             newest_date:{type: 'string',pattern: "/^\d{4}-\d{2}-\d{2}$/"},
+            offset:{type: 'number',minimum:1, multipleOf: 1}
         },
         additionalProperties: false,
         required: ['count']
@@ -75,7 +76,8 @@ function loadEndpoints(app){
         if(validget){
             let newest_date = 'newest_date' in req.query ? req.query.newest_date : (new Date()).toISOString().split('T')[0]
             let oldest_date = 'oldest_date' in req.query ? req.query.oldest_date : '2022-05-30'
-            const query = await ordered_entriesRef.where(`additiondate`,'<=',newest_date).where(`additiondate`,'>=',oldest_date).limit(req.query.count).get().then(
+            let offset = 'offset' in req.query ? req.query.offset: 1
+            const query = await ordered_entriesRef.where(`additiondate`,'<=',newest_date).where(`additiondate`,'>=',oldest_date).limit(req.query.count).offset(20).get(offset-1).then(
             query=>{
                 if(query.empty){
                     res.send(JSON.stringify({code:'404',msg:'No entries matchig query found.'}))

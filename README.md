@@ -53,11 +53,12 @@ If the `count` parameter is not specified a single entry with the closest `addit
 If you want to consult multiple entries or apply filters the `count` parameter should be specified.
 
 - `count` | A positive integer, no greater than 100. Indicates the maximum amount of entries that should be returned from the database.
+- `offset` | A positive integer. Parameter that specifies the numeber of the entry from which the pagination will be done. If not specified the values is 1, indicating the first entry.
 - `newest_date` | A string in YYYY-MM-DD format indicating the end of a date range. Entries in the range from `newest_date` to `oldest_date` will be returned. If `newest_date`  is not specified the current date will be used.
 - `oldest_date` | A string in YYYY-MM-DD format indicating the start of a date range. Entries in the range from `newest_date` to `oldest_date` will be returned. If noot specified the entri with the oldest `additiondate` date will be used.
-- `filter` | A string of 50 characters maximum. If specified, the entries returned must contain `filter` in the `title` field or `explanation` field.
+- `filter` | A string of 50 characters maximum. If specified, the entries returned must contain `filter` in the `title` field or `explanation` field. The filtering is done after pagination.
 
 Examples:\
 `35.185.252.75:3000/pictures`\
-`35.185.252.75:3000/pictures?count=100&filter=Venus`\
+`35.185.252.75:3000/pictures?count=100&offset=100&filter=Venus`\
 `35.185.252.75:3000/pictures?count=50&oldest_date=2022-05-29`
