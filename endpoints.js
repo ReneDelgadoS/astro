@@ -5,7 +5,7 @@
 */
 //Validator
 const Ajv = require('ajv')
-const ajv = new Ajv();
+const ajv = new Ajv({coerceTypes});
 //db
 const Firestore = require('@google-cloud/firestore')
 const db =  new Firestore()
