@@ -33,13 +33,14 @@ The endpoint for selecting entries using a GET request or the insertion of an en
 
 ### Insert an entry
 
-Make a POST request in `/pictures` .latest date
+Make a POST request in `/pictures` . Each key has a maximmun amount of writes per day.
 
 **Parameters**:
 
 + `key` |  Personal `key` to be able to insert values in the database
-+ `entry` |  JSON with the fields `title`,`explanation`,`url` and `hdurl` representing the entry to be inserted.
++ `entry` |  JSON with the fields `title`,`explanation`,`url` and `hdurl` representing the entry to be inserted. 
 
+The `url` and `hdurl` should direct to valid image formats. The supported formats are jpeg, jpg, gif, svg, avif, webp, apng, png.
 
 ### Consult entries
 

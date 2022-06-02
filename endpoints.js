@@ -3,67 +3,19 @@
     ******************************
     Endpoint configuration and loading.
 */
-//Validator
-const Ajv = require('ajv')
-const ajv = new Ajv({coerceTypes:true});
-//db
-const Firestore = require('@google-cloud/firestore')
-const db =  new Firestore()
-const ordered_entriesRef=db.collection('entries').orderBy(`additiondate`, 'desc').orderBy(`title`, 'asc');
-//Add validation schemas to the validator or future use.
-ajv.addSchema(
-    {
-        type: 'object',
-        required: ['count']
-    },
-    'get /pictures count'
-)
-ajv.addSchema(
-    {
-        type: 'object',
-        properties: {
-            count: { type: 'number',minimum:1,maximum:100, multipleOf: 1},
-            filter: {type: 'string',maxLength: 50},
-            oldest_date:{type: 'string',pattern: "/^\d{4}-\d{2}-\d{2}$/"},
-            newest_date:{type: 'string',pattern: "/^\d{4}-\d{2}-\d{2}$/"},
-            offset:{type: 'number',minimum:1, multipleOf: 1}
-        },
-        additionalProperties: false,
-        required: ['count']
-    },
-    'get /pictures'
-)
-ajv.addSchema(
-    {
-        type: 'object',
-        properties: {
-            key: { type: 'string'},
-            entry: {
-                type: 'object',
-                properties: {
-                    title: {type: "string", maxLength: 100},
-                    explanation:{type: "string",maxLength: 1000},
-                    url:{type: "string"},
-                    hdurl:{type: "string"},
-                },
-                additionalProperties: false,
-                required: ['title','explanation','url','hdurl']
-            },
-            filter: {type: 'string'}
-        },
-        additionalProperties: false,
-        required: ['key','entry']
-    },
-    'post /pictures'
-)
+//Load db 
+const db = required('/db')
+//Load validddator
+const ajv = required('/validator')
 
 
-function loadEndpoints(app){
+//load get endpoint
+function loadGetEndpoint(app){
     app.get('/pictures',async (req,res)=>{
         let validatecount= ajv.getSchema('get /pictures count')
         let validcount= validatecount(req.query)
         if(!validcount){
-            let data = await ordered_entriesRef.limit(1).get().then(
+            let data = await db.ordered_entriesRef.limit(1).get().then(
                 query=>{
                     return query.docs[0].data()
                 }
@@ -77,7 +29,7 @@ function loadEndpoints(app){
             let newest_date = 'newest_date' in req.query ? req.query.newest_date : (new Date()).toISOString().split('T')[0]
             let oldest_date = 'oldest_date' in req.query ? req.query.oldest_date : '2022-05-30'
             let offset = 'offset' in req.query ? req.query.offset: 1
-            const query = await ordered_entriesRef.where(`additiondate`,'<=',newest_date).where(`additiondate`,'>=',oldest_date).limit(req.query.count).offset(20).get(offset-1).then(
+            const query = await db.ordered_entriesRef.where(`additiondate`,'<=',newest_date).where(`additiondate`,'>=',oldest_date).limit(req.query.count).offset(20).get(offset-1).then(
             query=>{
                 if(query.empty){
                     res.send(JSON.stringify({code:'404',msg:'No entries matchig query found.'}))
@@ -101,9 +53,45 @@ function loadEndpoints(app){
             })   
         }
         else{
-            res.send(JSON.stringify({code:'400',msg:'Bad request',extra:validateget.errors,exra2:(typeof req.query.count)}))  
+            res.send(JSON.stringify({code:'400',msg:'Bad request'}))  
         }
     })
 }
-
-module.exports = {load:loadEndpoints}
+//load post endpoint
+function loadPostEndpoint(app) {
+    app.post('/pictures',async (req,res)=>{
+        let validatePost= ajv.getSchema('post /pictures count')
+        let validPost= validatePost(req.body)
+        if(!validPost){
+            res.send(JSON.stringify({code:'400',msg:'Bad request. Post request requirements can be found in thee docs https://github.com/ReneDelgadoS/astro'}))
+            return
+        }
+        let now = (new Date()).toISOString().split('T')[0]
+        let entry = req.body.entry
+        entry['additiondate']=now
+        let key = req.body.key
+        let keyRef = db.keysRef.doc(key)
+        await keyRef.get().then((doc)=>{
+            if(!doc.exists){
+                res.send(JSON.stringify({code:'403',msg:'The given key cant add entries. Keep in mind that each key has a maximmun amount of writes per day.'}))
+                return
+            }
+            let data = doc.data()
+            if(data.last_write_date == now){
+                if(data.writes>=daily_writes){
+                    res.send(JSON.stringify({code:'403',msg:'The given key cant add entries. Keep in mind that each key has a maximmun amount of writes per day.'}))
+                    return
+                }
+                db.entriesRef.add(entry).then(()=>{
+                    keyRef.update({writes:data.writes+1,total_writes:data.total_writes+1})
+                })
+            }
+        })
+    })
+}
+//load all endpoints
+function load(app){
+    loadGetEndpoint(app)
+    loadPostEndpoint(app)
+}
+module.exports = {load:load}
