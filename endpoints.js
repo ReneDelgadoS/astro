@@ -96,7 +96,7 @@ function loadEndpoints(app){
             res.send(JSON.stringify({count:out.length,entries:out}))
         }
         else{
-            res.send(JSON.stringify({code:'400',msg:'Bad request',extra:validateget.errors}))  
+            res.send(JSON.stringify({code:'400',msg:'Bad request',extra:validateget.errors,exra2:(typeof req.query.count)}))  
         }
     })
 }
