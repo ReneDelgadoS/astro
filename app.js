@@ -7,6 +7,11 @@
 //Import config.js 
 const config = require('./config')
 //Initiate app
+var https = require('https');
+const fs = require('fs');
+var privateKey  = fs.readFileSync('key.pem')
+var certificate = fs.readFileSync('cert.pem')
+var credentials = {key: privateKey, cert: certificate}
 const express = require('express')
 const app = express()
 app.listen(config.app.port, () => {
@@ -15,3 +20,6 @@ app.listen(config.app.port, () => {
 //Import endpoints.js
 const endpoints = require('./endpoints')
 endpoints.load(app)
+//create https sserver
+var httpsServer = https.createServer(credentials, app);
+httpServer.listen(8080);
