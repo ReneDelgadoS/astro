@@ -3,7 +3,7 @@ const getForm={
     in_newest:document.getElementById('in_newest'),
     in_oldest:document.getElementById('in_oldest'),
     in_search:document.getElementById('in_search'),
-    url:"http://35.185.252.75:3000/pictures",
+    url:"https://35.185.252.75:3000/pictures",
 }
 getForm.data= ()=>{
     let out ={count:25}
