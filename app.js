@@ -9,8 +9,8 @@ const config = require('./config')
 //Initiate app
 var https = require('https');
 const fs = require('fs');
-var privateKey  = fs.readFileSync('key.pem')
-var certificate = fs.readFileSync('cert.pem')
+var privateKey  = fs.readFileSync('./selfsigned.key')
+var certificate = fs.readFileSync('./selfsigned.crt')
 var credentials = {key: privateKey, cert: certificate}
 const express = require('express')
 const app = express()
@@ -18,5 +18,7 @@ const app = express()
 const endpoints = require('./endpoints')
 endpoints.load(app)
 //create https sserver
-var httpsServer = https.createServer(credentials, app);
-httpsServer.listen(3000);
+var httpsServer = https.createServer(credentials, app)
+httpsServer.listen(config.app.port).then(()=>{
+    console.log("Server started")
+})
