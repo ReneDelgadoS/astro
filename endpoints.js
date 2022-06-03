@@ -5,13 +5,14 @@
 */
 //Load db 
 const db = require('./db')
-//Load validddator
+//Load validdator
 const ajv = require('./validator')
-
+//Load cors
+const cors = require('cors')
 
 //load get endpoint
 function loadGetEndpoint(app){
-    app.get('/pictures',async (req,res)=>{
+    app.get('/pictures',cors(),async (req,res)=>{
         let validatecount= ajv.getSchema('get /pictures count')
         let validcount= validatecount(req.query)
         if(!validcount){
