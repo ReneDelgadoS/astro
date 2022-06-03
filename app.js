@@ -22,4 +22,4 @@ const endpoints = require('./endpoints')
 endpoints.load(app)
 //create https sserver
 var httpsServer = https.createServer(credentials, app);
-httpServer.listen(8080);
+httpServer.listen(3000);
