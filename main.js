@@ -52,7 +52,7 @@ async function getpage(ourl,pagei){
     let req =new Request(url,{
         method: 'GET',
         headers: new Headers(),
-        mode: 'no-cors',
+        mode: 'cors',
         cache: 'default',
         
 
