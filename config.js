@@ -5,7 +5,7 @@
 */
 const config = {
     app: {
-      port: 443
+      port: 3000
     },
 };
 module.exports = config;
