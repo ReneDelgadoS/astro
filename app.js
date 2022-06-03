@@ -19,6 +19,6 @@ const endpoints = require('./endpoints')
 endpoints.load(app)
 //create https sserver
 var httpsServer = https.createServer(credentials, app)
-httpsServer.listen(config.app.port).then(()=>{
+httpsServer.listen(config.app.port,()=>{
     console.log("Server started")
 })
