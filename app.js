@@ -9,8 +9,8 @@ const config = require('./config')
 //Initiate app
 var https = require('https');
 const fs = require('fs');
-var privateKey  = fs.readFileSync(__dirname +'./selfsigned.key')
-var certificate = fs.readFileSync(__dirname +'./selfsigned.crt')
+var privateKey  = fs.readFileSync(__dirname +'/selfsigned.key')
+var certificate = fs.readFileSync(__dirname +'/selfsigned.crt')
 var credentials = {key: privateKey, cert: certificate}
 const express = require('express')
 const app = express()
