@@ -14,9 +14,6 @@ var certificate = fs.readFileSync('cert.pem')
 var credentials = {key: privateKey, cert: certificate}
 const express = require('express')
 const app = express()
-app.listen(config.app.port, () => {
-    console.log('Server running in '+config.app.port)
-});
 //Import endpoints.js
 const endpoints = require('./endpoints')
 endpoints.load(app)
