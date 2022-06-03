@@ -5,5 +5,58 @@
     padding:0;
     box-sizing: border-box;
 }
-
-
+body,html{
+    height: 100%;
+}
+body{
+    display:grid;
+    grid-template-columns: 300px  auto;
+    grid-template-rows: 100%;
+}
+input[type=button], input[type=submit], input[type=reset] {
+    background-color: #EA8B1F;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+    letter-spacing:1px;
+  }
+.form{
+    display:flex;
+    flex-direction: column;
+    padding:15px;
+    border-right: solid 1px black; 
+}
+.form>div>input{
+    margin-bottom: .5em;
+}
+.logo{
+    border-bottom: solid 3px black;
+    margin-bottom: 15px;
+}
+.content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #D8D8D8;
+}
+.notice{
+    font-size: 3em;
+    font-weight:900;
+}
+#menu{
+    display: none;
+}
+.entry{
+    display: none;  
+}
+.menupage{
+    display: none;
+}
+.menupage.active{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}

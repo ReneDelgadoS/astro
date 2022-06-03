@@ -11,17 +11,21 @@
     <div class="form">
         <div class="logo">
             <h1>Astro</h1>
-            <h2>Web page for the Astro API</h2>
+            <h3>Web page for the Astro API</h3>
         </div>
         <div>
-            <input type="text" id="in_filter">
-            <input type="text" id="in_newest">
-            <input type="text" id="in_oldest">
-            <input type="button" id="in_search">
+            <label for="in_filter">Filter</label>
+            <input type="text" name="in_filter" id="in_filter">
+            <label for="in_newest">Newest Date</label>
+            <input type="date" name="in_newest" id="in_newest">
+            <label for="in_oldest">Oldest Date</label>
+            <input type="date" name="in_oldest" id="in_oldest">
+            <input type="button" id="in_search" value="Search">
         </div>
     </div>
     <div class="content">
-        <div class="menu">
+        <span class="notice" id="content_notice">Search for pictures!!!!</span>
+        <div id="menu">
             
         </div>
         <div class="entry">
@@ -34,4 +38,5 @@
         </div>
     </div>
 </body>
+<script  src="main.js"></script>
 </html>
