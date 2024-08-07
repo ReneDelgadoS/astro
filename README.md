@@ -2,7 +2,7 @@
 
 This repo holds the source files of an API for an astronomy picture database.\
 Allows for consult and data insertion.\
-Currently deployed in the IP [35.185.252.75:3000](https://35.185.252.75:3000/pictures) (up)\
+Currently deployed in the IP [35.185.252.75:3000](https://35.185.252.75:3000/pictures) (down)\
 Also, an application that shows astronomy pictures that makes use of this API will be found in [https://renedelgados.github.io/astro/](https://renedelgados.github.io/astro/) (still down)
 
 ---
